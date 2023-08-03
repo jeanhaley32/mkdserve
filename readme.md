@@ -15,7 +15,8 @@ eventually adopt a more robust personal webpage, but for now, this seems to do t
 
 ## Something Cool 
  Because this service reads the local md page each time it responds to a request, you can actively modify the page and that change will automatically
- go live without the need to restart the service. As far as I know this is pretty normal for web development, but I thought it was a cool added feature.
+ go live without the need to restart the service. As far as I know this is pretty normal for web development, but I thought it was a cool semi unintentional feature 
+ based on how this is constructed.
  I can live update my site, and have those updates immediately take effect. 
 
 ## How to Use this
