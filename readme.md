@@ -17,3 +17,8 @@ eventually adopt a more robust personal webpage, but for this now seems to do th
  Because this service reads the local md page each time it responds to a request, you can actively modify the page and that change will automatically
  go live without the need to restart the service. As far as I know this is pretty normal for web development, but I thought it was a cool added feature.
  I can live update my site, and have those updates immediately take effect. 
+
+## How to Use this
+- `go run . -ip=$IP -port=$PORT -page=$MKPAGETARGET`
+- if left blank `ip` defaults to localhost, and `port` defaults to 8080. `page` defaults to "main.md"
+- This should just work, as long as nothing else is serving on that port. 
