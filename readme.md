@@ -1,9 +1,7 @@
 🚧 **Work in Progress** 🚧
 
 # MkdServe (MarkDown Serve)
-
-## About
-A very simple single page HTTP server used to serve a markdown file as a webpage. 
+very simple single page HTTP server used to serve a markdown file as a webpage. 
 
 ## Why?
 I am interested in setting up a personal web page, I don't need anything fancy at the moment, and would like for it to just be an easily modifiable
