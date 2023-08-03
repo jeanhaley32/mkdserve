@@ -1,0 +1,62 @@
+package main
+
+import (
+	"flag"
+	"log"
+	"net/http"
+	"os"
+
+	"github.com/russross/blackfriday/v2"
+	"golang.org/x/sync/semaphore"
+)
+
+const ConnectionLimit = 100
+
+var (
+	port   = ""
+	ip     = ""
+	socket = ""
+	page   = ""
+)
+
+func init() {
+	flag.StringVar(&ip, "ip", "127.0.0.1", "IP address to listen on, defaults to 127.0.0.1 if not set")
+	flag.StringVar(&port, "port", "8080", "Port to listen on, defaults to 8080 if not set")
+	flag.StringVar(&page, "main", "main.md", "Main markdown file to serve:, defaults to main.md if not set")
+	flag.Parse()
+	socket = ip + ":" + port
+}
+
+func main() {
+	sem := semaphore.NewWeighted(ConnectionLimit)
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if !sem.TryAcquire(1) {
+			http.Error(w, "Too many connections", http.StatusTooManyRequests)
+			return
+		}
+		defer sem.Release(1)
+		log.Printf("Serving request: %s\n", r.URL.Path)
+		MarkdownHandler(w, r)
+	})
+
+	log.Printf("Starting server on %s\n", socket)
+	if err := http.ListenAndServe(socket, nil); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func MarkdownHandler(w http.ResponseWriter, r *http.Request) {
+
+	content, err := os.ReadFile(page)
+	if err != nil {
+		http.Error(w, "File not found.", 404)
+		return
+	}
+
+	output := blackfriday.Run(content)
+
+	// Set the Content-Type to HTML and write the response to the client.
+	w.Header().Set("Content-Type", "text/html")
+	w.Write(output)
+}
