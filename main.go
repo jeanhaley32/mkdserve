@@ -31,6 +31,7 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if !sem.TryAcquire(1) {
+			log.Printf("Too many connections from %s ", r.RemoteAddr)
 			http.Error(w, "Too many connections", http.StatusTooManyRequests)
 			return
 		}
@@ -39,7 +40,7 @@ func main() {
 		MarkdownHandler(w, r)
 	})
 
-	log.Printf("Starting server on %s\n", socket)
+	log.Printf("Starting server on http://%s\n", socket)
 	if err := http.ListenAndServe(socket, nil); err != nil {
 		log.Fatal(err)
 	}
@@ -49,6 +50,7 @@ func MarkdownHandler(w http.ResponseWriter, r *http.Request) {
 
 	content, err := os.ReadFile(page)
 	if err != nil {
+		log.Printf("Error reading file: %s\n", err)
 		http.Error(w, "File not found.", 404)
 		return
 	}
@@ -58,4 +60,5 @@ func MarkdownHandler(w http.ResponseWriter, r *http.Request) {
 	// Set the Content-Type to HTML and write the response to the client.
 	w.Header().Set("Content-Type", "text/html")
 	w.Write(output)
+	log.Printf("success")
 }
