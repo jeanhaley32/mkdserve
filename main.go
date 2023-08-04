@@ -35,7 +35,7 @@ func main() {
 			return
 		}
 		defer sem.Release(1)
-		log.Printf("Serving request: %s\n", r.URL.Path)
+		log.Printf("Serving request from %s: %s\n", r.RemoteAddr, r.URL.User)
 		MarkdownHandler(w, r)
 	})
 
