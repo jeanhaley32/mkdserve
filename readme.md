@@ -1,7 +1,7 @@
 🚧 **Work in Progress** 🚧
 
 # MkdServe (MarkDown Serve)
-very simple single page HTTP server used to serve a markdown file as a webpage. 
+very simple single page HTTP server. Converts MarkDown (.md) files to HTML. Serves jpeg, gifs, and pngs from `/image/` subdirectory, accessive via `/image/` subdomain.
 
 ## Why?
 I am interested in setting up a personal web page, I don't need anything fancy at the moment, and would like for it to just be an easily modifiable
@@ -12,6 +12,8 @@ eventually adopt a more robust personal webpage, but for now, this seems to do t
 - Listens for an HTTP request, Handles that request by returning a local MD file converted to HTML using `russcross/blackfriday/v2` library.
 - Connection Limit is set using the golang Semaphore library `golang.org/x/sync/semaphore`, and is set using the "ConnectionLimit" variable.
 - `page` variable is used to target the md file to be served. This defaults to main.md.
+- Serves images saved in `/image/` subfolder under the subdirectory `/image/<target file>`
+
 
 ## Something Cool 
  Because this service reads the local md page each time it responds to a request, you can actively modify the page and that change will automatically
