@@ -23,7 +23,7 @@ func ServeImages(sem *semaphore.Weighted) {
 		defer sem.Release(1)
 		log.Printf("Serving request from %s %s\n", r.RemoteAddr, r.URL.Path)
 		imageName := strings.TrimPrefix(r.URL.Path, "/image/")
-		imgPath := filepath.Join("images", imageName)
+		imgPath := filepath.Join("image", imageName)
 
 		// Open the image file
 		img, err := os.Open(imgPath)
