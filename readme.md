@@ -1,7 +1,7 @@
 🚧 **Work in Progress** 🚧
 
 # MkdServe (MarkDown Serve)
-very simple single page HTTP server. Converts MarkDown (.md) files to HTML. Serves jpeg, gifs, and pngs from `/image/` subdirectory, accessive via `/image/` subdomain.
+very simple single page HTTP server. Converts MarkDown (.md) files to HTML. Serves jpeg, gifs, and pngs from `/image/` subdirectory, addressable via `/image/` subdomain.
 
 ## Why?
 I am interested in setting up a personal web page, I don't need anything fancy at the moment, and would like for it to just be an easily modifiable
