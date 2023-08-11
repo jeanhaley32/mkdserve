@@ -27,7 +27,9 @@ func ServeImages(sem *semaphore.Weighted) {
 		imageName := strings.TrimPrefix(r.URL.Path, "/image/")
 		imgPath := filepath.Join("image", imageName)
 		if imageName == "" {
-			GetImageLinkPage(ContentScraper([]string{".jpeg", ".png", ".gif"}, "image"))
+			page := GetImageLinkPage(ContentScraper([]string{".jpeg", ".png", ".gif"}, "image"))
+			w.Write(page)
+			return
 		}
 
 		// Open the image file

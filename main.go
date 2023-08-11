@@ -2,7 +2,10 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"log"
+	"net/http"
+
+	"golang.org/x/sync/semaphore"
 )
 
 var (
@@ -20,15 +23,13 @@ func init() {
 }
 
 func main() {
-	fmt.Println(string(GetImageLinkPage(ContentScraper([]string{".jpeg", ".png", ".gif"}, "image"))))
-	// //
-	// sem := semaphore.NewWeighted(ConnectionLimit)
+	sem := semaphore.NewWeighted(ConnectionLimit)
 
-	// ServeImages(sem)
-	// ServePages(sem)
+	ServeImages(sem)
+	ServePages(sem)
 
-	// log.Printf("Starting server on http://%s\n", socket)
-	// if err := http.ListenAndServe(socket, nil); err != nil {
-	// 	log.Fatal(err)
-	// }
+	log.Printf("Starting server on http://%s\n", socket)
+	if err := http.ListenAndServe(socket, nil); err != nil {
+		log.Fatal(err)
+	}
 }
