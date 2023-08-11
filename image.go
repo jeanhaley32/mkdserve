@@ -15,7 +15,7 @@ import (
 
 func ServeImages(sem *semaphore.Weighted) {
 	http.HandleFunc("/image/", func(w http.ResponseWriter, r *http.Request) {
-		// Acquire a semaphore slot
+		// Acquire a semaphore slot before serving the request
 		if !sem.TryAcquire(1) {
 			log.Printf("Too many connections from %s ", r.RemoteAddr)
 			http.Error(w, "Too many connections", http.StatusTooManyRequests)
@@ -23,14 +23,17 @@ func ServeImages(sem *semaphore.Weighted) {
 		}
 		// Release the semaphore slot when we're done
 		defer sem.Release(1)
+		// Log the request
 		log.Printf("Serving request from %s %s\n", r.RemoteAddr, r.URL.Path)
-		imageName := strings.TrimPrefix(r.URL.Path, "/image/")
-		imgPath := filepath.Join("image", imageName)
-		if imageName == "" {
+		// If the request is for the image list page, serve it
+		if r.URL.Path == "/image/" {
 			page := GetImageLinkPage(ContentScraper([]string{".jpeg", ".png", ".gif"}, "image"))
 			w.Write(page)
 			return
 		}
+		// Otherwise, serve the image
+		imageName := strings.TrimPrefix(r.URL.Path, "/image/")
+		imgPath := filepath.Join("image", imageName)
 
 		// Open the image file
 		img, err := os.Open(imgPath)
@@ -62,6 +65,7 @@ type Link struct {
 	Label string
 }
 
+// Take in a list of links, and returns a page listing those links
 func GetImageLinkPage(links []string) []byte {
 	var b bytes.Buffer
 	// Define the template
