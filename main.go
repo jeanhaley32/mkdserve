@@ -27,6 +27,8 @@ func main() {
 
 	ServeImages(sem)
 	ServePages(sem)
+	// enable serving of static assets
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 
 	log.Printf("Starting server on http://%s\n", socket)
 	if err := http.ListenAndServe(socket, nil); err != nil {
