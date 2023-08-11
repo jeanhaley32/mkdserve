@@ -90,7 +90,7 @@ func GetImageLinkPage(links []string) []byte {
 	// Define the data for the template
 	var data []Link
 	for _, link := range links {
-		data = append(data, Link{URL: link, Label: filepath.Base(link)})
+		data = append(data, Link{URL: filepath.Base(link), Label: filepath.Base(link)})
 	}
 
 	err := tmpl.Execute(&b, data)
