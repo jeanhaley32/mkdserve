@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -68,7 +67,7 @@ type Link struct {
 
 // Take in a list of links, and returns a page listing those links
 func GetImageLinkPage(links []string) []byte {
-	URLPrefix := fmt.Sprintf("%s:%s", ip, port)
+	// URLPrefix := fmt.Sprintf("%s:%s", ip, port)
 	var b bytes.Buffer
 	// Define the template
 	tmpl := template.Must(template.New("links").Parse(`
@@ -91,7 +90,7 @@ func GetImageLinkPage(links []string) []byte {
 	// Define the data for the template
 	var data []Link
 	for _, link := range links {
-		data = append(data, Link{URL: URLPrefix + link, Label: filepath.Base(link)})
+		data = append(data, Link{URL: link, Label: filepath.Base(link)})
 	}
 
 	err := tmpl.Execute(&b, data)
