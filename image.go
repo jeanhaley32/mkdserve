@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"html/template"
 	"io"
 	"log"
 	"net/http"
@@ -24,6 +26,9 @@ func ServeImages(sem *semaphore.Weighted) {
 		log.Printf("Serving request from %s %s\n", r.RemoteAddr, r.URL.Path)
 		imageName := strings.TrimPrefix(r.URL.Path, "/image/")
 		imgPath := filepath.Join("image", imageName)
+		if imageName == "" {
+			GetImageLinkPage(ContentScraper([]string{".jpeg", ".png", ".gif"}, "image"))
+		}
 
 		// Open the image file
 		img, err := os.Open(imgPath)
@@ -48,4 +53,42 @@ func ServeImages(sem *semaphore.Weighted) {
 			http.Error(w, "Internal server error", 500)
 		}
 	})
+}
+
+type Link struct {
+	URL   string
+	Label string
+}
+
+func GetImageLinkPage(links []string) []byte {
+	var b bytes.Buffer
+	// Define the template
+	tmpl := template.Must(template.New("links").Parse(`
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>Images</title>
+            </head>
+            <body>
+                <h1>Image Links</h1>
+                <ul>
+                    {{range .}}
+                        <li><a href="{{.URL}}">{{.Label}}</a></li>
+                    {{end}}
+                </ul>
+            </body>
+        </html>
+    `))
+
+	// Define the data for the template
+	var data []Link
+	for _, link := range links {
+		data = append(data, Link{link, filepath.Base(link)})
+	}
+
+	err := tmpl.Execute(&b, data)
+	if err != nil {
+		panic(err)
+	}
+	return b.Bytes()
 }
