@@ -68,7 +68,7 @@ type Link struct {
 
 // Take in a list of links, and returns a page listing those links
 func GetImageLinkPage(links []string) []byte {
-	URLPrefix := fmt.Sprintf("%s:%s/image/", ip, port)
+	URLPrefix := fmt.Sprintf("%s:%s", ip, port)
 	var b bytes.Buffer
 	// Define the template
 	tmpl := template.Must(template.New("links").Parse(`
