@@ -32,10 +32,7 @@ func MarkdownHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	output := blackfriday.Run(content)
-
 	// Set the Content-Type to HTML and write the response to the client.
 	w.Header().Set("Content-Type", "text/html")
-	w.Write(output)
-	log.Printf("success")
+	w.Write(content)
 }
