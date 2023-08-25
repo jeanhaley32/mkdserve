@@ -1,20 +1,23 @@
 🚧 **Work in Progress** 🚧
 
 # MkdServe (MarkDown Serve)
-very simple single page HTTP server. Converts MarkDown (.md) files to HTML. Serves jpeg, gifs, and pngs from `/image/` subdirectory, addressable via `/image/` subdomain.
+Very Simple server. Not yet feature complete. 
 
 ## Features
-- supports CSS stylsheets within `/assets/` subdirectory
-- serves images out of `/image/` subdirectory
-- Will serve main.md within root path of program. Converts it to HTML. This seems to make it mostly compatible with HTML tags. 
-
-## Something Cool 
- Because this service reads the local md page each time it responds to a request, you can actively modify the page and that change will automatically
- go live without the need to restart the service. As far as I know this is pretty normal for web development, but I thought it was a cool semi unintentional feature 
- based on how this is constructed.
- I can live update my site, and have those updates immediately take effect. 
+- Handles a single page `main.html`
+- css is stores in `/assets/`, and can be linked from there.
+- images can be stores and served from `/image/`, going to <URL>/image/ will lead to a generated index page that shows links to all images served.
+  - The server will scrap all gif/jpeg/png files in `/image/` and create a simple index page of links to those images.
+  - You can also link to them directly if you know the image name you're looking for
 
 ## How to Use this
 - `go run . -ip=$IP -port=$PORT -page=$MKPAGETARGET`
 - if left blank `ip` defaults to localhost, and `port` defaults to 8080. `page` defaults to "main.md"
-- This should just work, as long as nothing else is serving on that port. 
+- This should just work, as long as nothing else is serving on that port.
+
+## Future Additions
+- Enable Javascript
+- rewrite to be simpler. There are a few preconstructed standard Library items that do what I did, but alot better.
+- Properly implement traffic limiting, right now it's not really working as it should. Lazily implemented.
+- Support multiple subdomains, not just one main.html.
+That's it so far, until I can think of anything else. 
