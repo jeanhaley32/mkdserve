@@ -1,6 +1,6 @@
 🚧 **Work in Progress** 🚧
-
 # MkdServe (MarkDown Serve)
+`Formerly MarkDown Serve, i've bit the bullet and decided to just use HTML and CSS, instead of just simple markdown`
 Very Simple server. Not yet feature complete. 
 
 ## Features
