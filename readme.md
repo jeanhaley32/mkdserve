@@ -5,7 +5,7 @@ Very Simple server. Not yet feature complete.
 
 ## Features
 - Handles a single page `main.html`
-- css is stores in `/assets/`, and can be linked from there.
+- css is stored in `/assets/`, and can be linked from there.
 - images can be stores and served from `/image/`, going to <URL>/image/ will lead to a generated index page that shows links to all images served.
   - The server will scrap all gif/jpeg/png files in `/image/` and create a simple index page of links to those images.
   - You can also link to them directly if you know the image name you're looking for
