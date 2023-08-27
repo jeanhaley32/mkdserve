@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	
+
 	"golang.org/x/sync/semaphore"
 )
 
@@ -18,11 +18,11 @@ func ServePages(sem *semaphore.Weighted) {
 		}
 		defer sem.Release(1)
 		log.Printf("Serving request from %s %s\n", r.RemoteAddr, r.URL.Path)
-		MarkdownHandler(w, r)
+		HTMLHandler(w, r)
 	})
 }
 
-func MarkdownHandler(w http.ResponseWriter, r *http.Request) {
+func HTMLHandler(w http.ResponseWriter, r *http.Request) {
 
 	content, err := os.ReadFile(page)
 	if err != nil {

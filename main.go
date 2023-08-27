@@ -16,7 +16,7 @@ var (
 func init() {
 	flag.StringVar(&ip, "ip", "127.0.0.1", "IP address to listen on, defaults to 127.0.0.1 if not set")
 	flag.StringVar(&port, "port", "8080", "Port to listen on, defaults to 8080 if not set")
-	flag.StringVar(&page, "main", "main.md", "Main markdown file to serve:, defaults to main.md if not set")
+	flag.StringVar(&page, "main", "main.html", "Main markdown file to serve:, defaults to main.html if not set")
 	flag.Int64Var(&ConnectionLimit, "limit", 100, "Connection limit, defaults to 100 if not set")
 	flag.Parse()
 	socket = ip + ":" + port
