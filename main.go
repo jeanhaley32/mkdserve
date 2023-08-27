@@ -4,8 +4,6 @@ import (
 	"flag"
 	"log"
 	"net/http"
-
-	"golang.org/x/sync/semaphore"
 )
 
 var (
@@ -23,11 +21,15 @@ func init() {
 }
 
 func main() {
-	sem := semaphore.NewWeighted(ConnectionLimit)
 
-	ServeImages(sem)
-	ServePages(sem)
-	// enable serving of static assets
+	// Handle main page
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, page)
+	})
+	// Handle Image subdirectory
+	http.Handle("/image/", http.StripPrefix("/image/", http.FileServer(http.Dir("image"))))
+
+	// Handle Assets subdirectory
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 
 	log.Printf("Starting server on http://%s\n", socket)
