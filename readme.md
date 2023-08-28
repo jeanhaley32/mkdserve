@@ -1,6 +1,6 @@
 🚧 **Work in Progress** 🚧
 # Objective
-- Create my own webserver to host my own [personal website](haley.nyc)
+- Create my own webserver to host my own [personal website](http://haley.nyc)
 
 # Features
 - Image and asset sub-domain `/assets/` (for JS, and CSS assets)
