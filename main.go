@@ -24,13 +24,18 @@ func main() {
 
 	// Handle main page
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, page)
+		if r.URL.Path == "/" {
+			http.ServeFile(w, r, page)
+		}
+		http.Error(w, "404 not found.", http.StatusNotFound)
 	})
 	// Handle Image subdirectory
 	http.Handle("/image/", http.StripPrefix("/image/", http.FileServer(http.Dir("image"))))
 
 	// Handle Assets subdirectory
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
+
+	http.Handle("/pages/", http.StripPrefix("/pages/", http.FileServer(http.Dir("pages"))))
 
 	log.Printf("Starting server on http://%s\n", socket)
 	if err := http.ListenAndServe(socket, nil); err != nil {
