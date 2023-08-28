@@ -27,7 +27,8 @@ func main() {
 		if r.URL.Path == "/" {
 			http.ServeFile(w, r, page)
 		}
-		http.Error(w, "404 not found.", http.StatusNotFound)
+		target := r.URL.Path[1:]
+		http.ServeFile(w, r, target)
 	})
 	// Handle Image subdirectory
 	http.Handle("/image/", http.StripPrefix("/image/", http.FileServer(http.Dir("image"))))
