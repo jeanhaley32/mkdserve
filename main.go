@@ -27,8 +27,8 @@ func main() {
 		if r.URL.Path == "/" {
 			http.ServeFile(w, r, page)
 		}
-		target := r.URL.Path[1:]
-		http.ServeFile(w, r, "/pages/"+target+".html")
+		target := r.URL.Path[0:]
+		http.ServeFile(w, r, "./pages/"+target+".html")
 	})
 	// Handle Image subdirectory
 	http.Handle("/image/", http.StripPrefix("/image/", http.FileServer(http.Dir("image"))))
