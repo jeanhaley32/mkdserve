@@ -28,15 +28,13 @@ func main() {
 			http.ServeFile(w, r, page)
 		}
 		target := r.URL.Path[1:]
-		http.ServeFile(w, r, target)
+		http.ServeFile(w, r, "/pages/"+target)
 	})
 	// Handle Image subdirectory
 	http.Handle("/image/", http.StripPrefix("/image/", http.FileServer(http.Dir("image"))))
 
 	// Handle Assets subdirectory
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
-
-	http.Handle("/pages/", http.StripPrefix("/pages/", http.FileServer(http.Dir("pages"))))
 
 	log.Printf("Starting server on http://%s\n", socket)
 	if err := http.ListenAndServe(socket, nil); err != nil {
