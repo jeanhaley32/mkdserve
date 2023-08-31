@@ -7,14 +7,16 @@ import (
 )
 
 var (
-	port, ip, socket, page string
-	ConnectionLimit        int64
+	port, ip, socket, page, key, crt string
+	ConnectionLimit                  int64
 )
 
 func init() {
 	flag.StringVar(&ip, "ip", "127.0.0.1", "IP address to listen on, defaults to 127.0.0.1 if not set")
 	flag.StringVar(&port, "port", "8080", "Port to listen on, defaults to 8080 if not set")
 	flag.StringVar(&page, "main", "main.html", "Main markdown file to serve:, defaults to main.html if not set")
+	flag.StringVar(&crt, "crt", "", "SSL certificate file, defaults to blank if not set")
+	flag.StringVar(&key, "key", "", "SSL key file, defaults to blank if not set")
 	flag.Parse()
 	socket = ip + ":" + port
 }
@@ -38,6 +40,16 @@ func main() {
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 
 	log.Printf("Starting server on http://%s\n", socket)
+
+	// If SSL certificate and key are provided, start server with TLS
+	if crt != "" && key != "" {
+		log.Printf("Starting server on https://%s\n", socket)
+		if err := http.ListenAndServeTLS(socket, crt, key, nil); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	// If SSL certificate and key are not provided, start server without TLS
 	if err := http.ListenAndServe(socket, nil); err != nil {
 		log.Fatal(err)
 	}
