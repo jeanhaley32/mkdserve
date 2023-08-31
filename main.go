@@ -32,6 +32,7 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// If root path, serve main page
 		if TLS {
+			w.Header().Set("Location", "https://"+r.Host+r.URL.Path)
 			w.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
 			r.URL.Scheme = "https"
 		}
@@ -46,6 +47,7 @@ func main() {
 	// Handle image page
 	http.HandleFunc("/image/", func(w http.ResponseWriter, r *http.Request) {
 		if TLS {
+			w.Header().Set("Location", "https://"+r.Host+r.URL.Path)
 			w.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
 			r.URL.Scheme = "https"
 		}
@@ -55,6 +57,7 @@ func main() {
 	// Handle Assets subdirectory
 	http.HandleFunc("/assets/", func(w http.ResponseWriter, r *http.Request) {
 		if TLS {
+			w.Header().Set("Location", "https://"+r.Host+r.URL.Path)
 			w.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
 			r.URL.Scheme = "https"
 		}
