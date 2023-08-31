@@ -49,7 +49,7 @@ func main() {
 			w.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
 			r.URL.Scheme = "https"
 		}
-		http.ServeFile(w, r, "index.html")
+		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
 	// Handle Assets subdirectory
