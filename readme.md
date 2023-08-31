@@ -7,6 +7,7 @@
 - Serves a single main page. `/main.html`
 - Very simple. uses pre-built golang functionality
 - Serves anything located in `/pages/` subfolder as a subdomain
+- TLS enabled with flags `-key` and `-crt`
 
 # TODO
 - Implement light traffic management (limit amount of requests per X time frame)
