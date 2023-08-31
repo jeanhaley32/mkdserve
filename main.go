@@ -42,7 +42,7 @@ func main() {
 	log.Printf("Starting server on http://%s\n", socket)
 
 	// If SSL certificate and key are provided, start server with TLS
-	if crt != "" && key != "" {
+	if csr != "" && key != "" {
 		log.Printf("Starting server on https://%s\n", socket)
 		if err := http.ListenAndServeTLS(socket, csr, key, nil); err != nil {
 			log.Fatal(err)
