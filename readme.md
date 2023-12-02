@@ -2,6 +2,12 @@
 # Objective
 - Create my own webserver to host my own [personal website](http://haley.nyc)
 
+  ``` 
+    I moved to github for site hosting, keeping this here because it's something small I did.
+    But I no longer really use this
+  ```
+
+
 # Features
 - Image and asset sub-domain `/assets/` (for JS, and CSS assets)
 - Serves a single main page. `/main.html`
